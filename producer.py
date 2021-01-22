@@ -16,28 +16,24 @@ dataPriceCoin = 'https://api.coingecko.com/api/v3/simple/price?ids='
 dataPriceMarket = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
 dataExchange = 'https://api.coingecko.com/api/v3/exchanges/'
 dataDeFi = 'https://api.coingecko.com/api/v3/global/decentralized_finance_defi'
+dataCoin = 'https://api.coingecko.com/api/v3/coins/'
 priceVersus = '&vs_currencies='
 
-listData = [dataPriceCoin]
+listCoin = ['bitcoin', 'ethereum', 'polkadot', 'link', 'havven', 'cardano']
 
 # encode objects via msgpack
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
 
-for data in listData:
+while True:
     try:
-        i = 0
-        while i < 1000000:
-            print("Start : %s" % time.ctime())
-            if data == dataPriceCoin:
-                data += 'bitcoin' + priceVersus + 'usd'
-            response = requests.get(data)
-            json_res = response.json()
-            producer.send('crypto2', json_res)
-            print("Loading of one data")
-            time.sleep(10)
-            print("End : %s" % time.ctime())
-            i += 1
-
+        print("Start : %s\n" % time.ctime())
+        for data in listCoin:
+            print("Loading of data")
+            response = requests.get(dataCoin + data)
+            json_res = response.json()['market_data']['current_price']
+            producer.send('cryptot', json_res)
+            print(json_res['id'])
+            time.sleep(2)
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
     except HTTPError as http_err:
@@ -45,6 +41,8 @@ for data in listData:
     except Exception as err:
         print(f'Other error occurred: {err}')  # Python 3.6
     else:
-        print('Success!')
+        print('\nSuccess!\n')
+
+    print("End : %s\n" % time.ctime())
 
 producer.flush()
