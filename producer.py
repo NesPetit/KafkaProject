@@ -12,28 +12,27 @@ from requests.exceptions import HTTPError
 
 
 # Collector API 
-dataPriceCoin = 'https://api.coingecko.com/api/v3/simple/price?ids='
-dataPriceMarket = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-dataExchange = 'https://api.coingecko.com/api/v3/exchanges/'
 dataDeFi = 'https://api.coingecko.com/api/v3/global/decentralized_finance_defi'
 dataCoin = 'https://api.coingecko.com/api/v3/coins/'
-priceVersus = '&vs_currencies='
-
+graphConsumer = []
 listCoin = ['bitcoin', 'ethereum', 'polkadot', 'link', 'havven', 'cardano']
-
 # encode objects via msgpack
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
-
 while True:
     try:
         print("Start : %s\n" % time.ctime())
+        graphConsumer.clear()
         for data in listCoin:
             print("Loading of data")
             response = requests.get(dataCoin + data)
             json_res = response.json()['market_data']['current_price']
-            producer.send('cryptot', json_res)
-            print(json_res['id'])
-            time.sleep(2)
+            producer.send(data, json_res)
+            print(response.json()['id'])
+            time.sleep(10)
+            graphConsumer.append(response.json()['market_data']['current_price']['eur'])
+
+        producer.send("listCoin", graphConsumer)
+        
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
     except HTTPError as http_err:
