@@ -1,6 +1,5 @@
 # **KAFKA APPLICATION WITH DISPLAY PRICE AND GRAPHIC OF CRYPTOCURRENCIES**
 
-<br>
 
 ### Programming in python 3.8.3 
 
@@ -9,7 +8,7 @@
 +  All APIs have been retrieved from CoinGecko
 
    https://www.coingecko.com/en/api#explore-api
-   
+
 +  And we mainly used the following API to adjust the parameters according to the user's requests
 
    https://api.coingecko.com/api/v3/coins/"name_cryptocurrency"
@@ -42,5 +41,6 @@
 
 +  The UI is accessible on *192.168.99.100:3030* or *localhost:3030*. Depends on your configuration.
 
+<br>
 
 # Good experimentation ! 
