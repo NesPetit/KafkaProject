@@ -2,17 +2,17 @@
 
 <br>
 
-#Programming in python 3.8.3 
+### Programming in python 3.8.3 
 
 ## Available streams
 ***
 +  All APIs have been retrieved from CoinGecko
-<br>
+
    https://www.coingecko.com/en/api#explore-api
-<br>
+   
 +  And we mainly used the following API to adjust the parameters according to the user's requests
-<br>
-   https://api.coingecko.com/api/v3/coins/<cryptocurrency>
+
+   https://api.coingecko.com/api/v3/coins/"name_cryptocurrency"
 
 ## Available topics
 ***
