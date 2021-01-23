@@ -10,14 +10,15 @@ import msgpack
 from requests.exceptions import HTTPError
 
 
-
 # Collector API 
-dataDeFi = 'https://api.coingecko.com/api/v3/global/decentralized_finance_defi'
 dataCoin = 'https://api.coingecko.com/api/v3/coins/'
+
 graphConsumer = []
 listCoin = ['bitcoin', 'ethereum', 'polkadot', 'link', 'havven', 'cardano']
+
 # encode objects via msgpack
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
+
 while True:
     try:
         print("Start : %s\n" % time.ctime())

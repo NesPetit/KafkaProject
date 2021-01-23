@@ -12,6 +12,7 @@ import numpy as np
 import datetime as dt
 from matplotlib.animation import FuncAnimation
 
+
 # To consume latest messages and auto-commit offsets
 consumer1 = KafkaConsumer('bitcoin',
                          group_id='my-group',
@@ -191,7 +192,7 @@ def menu():
     if choix == '3':
         print('Merci de votre visite !')
         time.sleep(2)
-        quit()
+        sys.exit()
 
 menu()
 
